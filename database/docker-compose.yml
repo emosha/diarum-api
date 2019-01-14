@@ -1,0 +1,22 @@
+version: '3'
+services:
+  prisma:
+    image: prismagraphql/prisma:1.23
+    restart: always
+    ports:
+    - "4466:4466"
+    environment:
+      PRISMA_CONFIG: |
+        port: 4466
+        # uncomment the next line and provide the env var PRISMA_MANAGEMENT_API_SECRET=83b945afb9c5808bb54a0da7f1cc2a8dff7e04d3 to activate cluster security
+        # managementApiSecret: 83b945afb9c5808bb54a0da7f1cc2a8dff7e04d3
+        databases:
+          default:
+            connector: postgres
+            host: host.docker.internal
+            database: diarum
+            user: iveren
+            password: ''
+            rawAccess: true
+            port: '5432'
+            migrations: true
