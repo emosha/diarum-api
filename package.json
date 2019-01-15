@@ -18,8 +18,6 @@
     "heroku-postbuild": "yarn build"
   },
   "dependencies": {
-    "@commitlint/cli": "^7.3.1",
-    "@commitlint/config-conventional": "^7.3.1",
     "bcryptjs": "^2.4.3",
     "cross-fetch": "^3.0.0",
     "dotenv-cli": "^1.4.0",
@@ -35,6 +33,8 @@
     "prisma-client-lib": "^1.24.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^7.3.1",
+    "@commitlint/config-conventional": "^7.3.1",
     "@babel/polyfill": "^7.2.5",
     "apollo-boost": "^0.1.14",
     "apollo-cache-inmemory": "^1.2.10",
