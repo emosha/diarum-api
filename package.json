@@ -7,8 +7,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "dotenv -e env/dev.env -- nodemon --ext js,graphql --exec babel-node",
-    "debug": "dotenv -e env/dev.env -- nodemon --ext js,graphql --exec babel-node --inspect",
+    "dev": "dotenv -e env/dev.env -- nodemon src/index.js --ext js,graphql --exec babel-node",
+    "debug": "dotenv -e env/dev.env -- nodemon src/index.js --ext js,graphql --exec babel-node --inspect",
     "build": "babel src --out-dir dist --copy-files",
     "test": "dotenv -e env/test.env jest --watch --runInBand",
     "test:commit": "yarn test --coverage",
@@ -18,8 +18,10 @@
     "heroku-postbuild": "yarn build"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "bcryptjs": "^2.4.3",
     "cross-fetch": "^3.0.0",
+    "dotenv": "^6.2.0",
     "dotenv-cli": "^1.4.0",
     "eslint-plugin-jsx-a11y": "6.1.1",
     "eslint-plugin-react": "7.11.0",
@@ -27,15 +29,17 @@
     "graphql-cli": "^3.0.4",
     "graphql-newest": "npm:graphql",
     "graphql-yoga": "^1.16.9",
+    "graphql-yup-middleware": "^0.0.1",
     "jsonwebtoken": "^8.4.0",
+    "merge-graphql-schemas": "^1.5.8",
     "prisma": "^1.24.0",
     "prisma-binding": "^2.2.14",
-    "prisma-client-lib": "^1.24.0"
+    "prisma-client-lib": "^1.24.0",
+    "yup": "^0.26.7"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.3.1",
     "@commitlint/config-conventional": "^7.3.1",
-    "@babel/polyfill": "^7.2.5",
     "apollo-boost": "^0.1.14",
     "apollo-cache-inmemory": "^1.2.10",
     "apollo-client": "^2.4.2",
@@ -49,6 +53,7 @@
     "babel-eslint": "^10.0.1",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-regenerator": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
     "codecov": "^3.1.0",
@@ -66,6 +71,7 @@
   "resolutions": {
     "graphql-yoga/**/graphql": "^0.13.1",
     "prisma-binding/**/graphql": "^0.13.2",
-    "graphql-cli/**/graphql": "^0.13.0"
+    "graphql-cli/**/graphql": "^0.13.0",
+    "graphql-yoga/graphql-middleware": "^1.7.0"
   }
 }

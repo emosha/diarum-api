@@ -1,19 +1,24 @@
-import { GraphQLServer, PubSub } from 'graphql-yoga';
-import resolvers, { fragmentReplacements } from 'resolvers/index';
+import '@babel/polyfill/noConflict';
+import { GraphQLServer } from 'graphql-yoga';
+import { MutationValidationError, FieldValidationError, yupMiddleware } from 'graphql-yup-middleware';
+import resolvers from 'resolvers/index';
 import prisma from './prisma';
+import typeDefs from './typeDefs';
 
-const pubsub = new PubSub();
 const options = {
   resolvers,
-  typeDefs: './src/schema.graphql',
+  typeDefs: [
+    typeDefs,
+    MutationValidationError,
+    FieldValidationError
+  ],
   context(request) {
     return {
-      pubsub,
       prisma,
       request
     };
   },
-  fragmentReplacements
+  middlewares: [yupMiddleware()]
 };
 
 const server = new GraphQLServer(options);

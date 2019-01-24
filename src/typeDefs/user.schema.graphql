@@ -1,0 +1,38 @@
+type Query {
+  me: User!
+}
+
+type Mutation {
+  createUser(data: CreateUserInput!): AuthPayload!
+}
+
+type AuthPayload {
+  user: User
+  token: String
+  error: MutationValidationError
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  username: String!
+  password: String!
+  imageUrl: String
+}
+
+type User {
+  id: ID!
+  name: String!
+  username: String!
+  email: String
+  password: String!
+  imageUrl: String
+  updatedAt: String!
+  createdAt: String!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}

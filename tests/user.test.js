@@ -4,20 +4,18 @@ import 'cross-fetch/polyfill';
 import prisma from '../src/prisma';
 import seedDatabase, { userOne } from './utils/seedDatabase';
 import getClient from './utils/getClient';
-import {
-  createUser, getUsers, login, getProfile
-} from './utils/operations';
-
+import { createUser, getProfile } from './utils/operations';
 
 const client = getClient();
 
-beforeEach(seedDatabase);
+beforeAll(seedDatabase);
 
 test('Should create a new user', async () => {
   const variables = {
     data: {
       name: 'Iveren',
       email: 'iveren@test.com',
+      username: 'iveren',
       password: 'MyPass123'
     }
   };
@@ -33,40 +31,65 @@ test('Should create a new user', async () => {
 
   expect(userExists).toBeTruthy();
 });
-
-test('Should expose public author profiles', async () => {
-  const response = await client.query({ query: getUsers });
-
-  expect(response.data.users.length).toBe(2);
-  expect(response.data.users[0].email).toBe(null);
-  expect(response.data.users[0].name).toBe('Jen');
-});
-
-test('Should not login with bad credentials', async () => {
-  const variables = {
-    email: 'jen@example.com',
-    password: 'dfghjR'
-  };
-
-  await expect(client.mutate({
-    mutation: login,
-    variables
-  })).rejects.toThrow();
-});
-
 test('Should not signup user with invalid password', async () => {
   const variables = {
     data: {
       name: 'Andrew',
       email: 'andrew@example.com',
+      username: 'andrew',
       password: 'pass'
     }
   };
 
-  await expect(client.mutate({
-    mutation: createUser,
-    variables
-  })).rejects.toThrow();
+
+  const response = await client.mutate({ mutation: createUser, variables });
+
+  expect(response.data.createUser.error.message).toEqual('password should be more than 8 characters');
+  response.data.createUser.error.details.map((detail) => { //eslint-disable-line
+    if (detail.field === 'data.password') {
+      expect(detail.errors[0]).toEqual('password should be more than 8 characters');
+    }
+  });
+});
+
+test('Should not signup user with existing username', async () => {
+  const variables = {
+    data: {
+      name: 'Andrew',
+      email: 'andrew@example1.com',
+      username: userOne.input.username,
+      password: 'andrewexample'
+    }
+  };
+
+  const response = await client.mutate({ mutation: createUser, variables });
+
+  expect(response.data.createUser.error.message).toEqual('username already exists');
+  response.data.createUser.error.details.map((detail) => { //eslint-disable-line
+    if (detail.field === 'data.username') {
+      expect(detail.errors[0]).toEqual('username already exists');
+    }
+  });
+});
+
+test('Should not signup user with existing email', async () => {
+  const variables = {
+    data: {
+      name: 'Andrew',
+      email: userOne.input.email,
+      username: 'andrew',
+      password: 'andrewexample'
+    }
+  };
+
+  const response = await client.mutate({ mutation: createUser, variables });
+
+  expect(response.data.createUser.error.message).toEqual('email already exists');
+  response.data.createUser.error.details.map((detail) => { //eslint-disable-line
+    if (detail.field === 'data.email') {
+      expect(detail.errors[0]).toEqual('email already exists');
+    }
+  });
 });
 
 test('Should fetch user profile', async () => {
@@ -76,4 +99,8 @@ test('Should fetch user profile', async () => {
   expect(data.me.id).toBe(userOne.user.id);
   expect(data.me.name).toBe(userOne.user.name);
   expect(data.me.email).toBe(userOne.user.email);
+});
+
+test('Should not fetch user profile if token is not provided', async () => {
+  await expect(client.query({ query: getProfile })).rejects.toThrow();
 });

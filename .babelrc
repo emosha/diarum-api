@@ -4,6 +4,7 @@
   ],
   "plugins": [
     "transform-object-rest-spread",
+    "transform-regenerator",
     ["module-resolver", {
       "root": ["./src"],
       "alias": {
