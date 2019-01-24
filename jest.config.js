@@ -22,5 +22,5 @@ module.exports = {
     '^tests/(.*)': '<rootDir>/src/generated/$1',
   },
   coverageDirectory: './coverage/',
-  collectCoverage: true
+  collectCoverage: true,
 };

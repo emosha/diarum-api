@@ -11,27 +11,13 @@ const createUser = gql`
         email
       }
       token
-    }
-  }
-`;
-
-const getUsers = gql`
-  query {
-      users {
-          id
-          name
-          email
+      error {
+        message
+        details {
+          field
+          errors
+        }
       }
-  }
-`;
-
-const login = gql`
-  mutation($email: String!, $password: String!) {
-    login(
-      email: $email,
-      password: $password
-    ) {
-      token
     }
   }
 `;
@@ -47,8 +33,5 @@ const getProfile = gql`
 `;
 
 export {
-  createUser,
-  getUsers,
-  login,
-  getProfile,
+  createUser, getProfile
 };

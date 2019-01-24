@@ -1,5 +1,5 @@
 # source: http://localhost:4466/diarum/dev
-# timestamp: Sat Jan 12 2019 13:21:38 GMT+0100 (West Africa Standard Time)
+# timestamp: Wed Jan 23 2019 01:29:37 GMT+0100 (West Africa Standard Time)
 
 type AggregateUser {
   count: Int!
@@ -81,7 +81,9 @@ type Subscription {
 type User implements Node {
   id: ID!
   name: String!
+  username: String!
   email: String!
+  imageUrl: String
   password: String!
   updatedAt: DateTime!
   createdAt: DateTime!
@@ -99,7 +101,9 @@ type UserConnection {
 
 input UserCreateInput {
   name: String!
+  username: String!
   email: String!
+  imageUrl: String
   password: String!
 }
 
@@ -117,8 +121,12 @@ enum UserOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  username_ASC
+  username_DESC
   email_ASC
   email_DESC
+  imageUrl_ASC
+  imageUrl_DESC
   password_ASC
   password_DESC
   updatedAt_ASC
@@ -130,7 +138,9 @@ enum UserOrderByInput {
 type UserPreviousValues {
   id: ID!
   name: String!
+  username: String!
   email: String!
+  imageUrl: String
   password: String!
   updatedAt: DateTime!
   createdAt: DateTime!
@@ -177,13 +187,17 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateInput {
   name: String
+  username: String
   email: String
+  imageUrl: String
   password: String
 }
 
 input UserUpdateManyMutationInput {
   name: String
+  username: String
   email: String
+  imageUrl: String
   password: String
 }
 
@@ -276,6 +290,46 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
+  username: String
+
+  """All values that are not equal to given value."""
+  username_not: String
+
+  """All values that are contained in given list."""
+  username_in: [String!]
+
+  """All values that are not contained in given list."""
+  username_not_in: [String!]
+
+  """All values less than the given value."""
+  username_lt: String
+
+  """All values less than or equal the given value."""
+  username_lte: String
+
+  """All values greater than the given value."""
+  username_gt: String
+
+  """All values greater than or equal the given value."""
+  username_gte: String
+
+  """All values containing the given string."""
+  username_contains: String
+
+  """All values not containing the given string."""
+  username_not_contains: String
+
+  """All values starting with the given string."""
+  username_starts_with: String
+
+  """All values not starting with the given string."""
+  username_not_starts_with: String
+
+  """All values ending with the given string."""
+  username_ends_with: String
+
+  """All values not ending with the given string."""
+  username_not_ends_with: String
   email: String
 
   """All values that are not equal to given value."""
@@ -316,6 +370,46 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   email_not_ends_with: String
+  imageUrl: String
+
+  """All values that are not equal to given value."""
+  imageUrl_not: String
+
+  """All values that are contained in given list."""
+  imageUrl_in: [String!]
+
+  """All values that are not contained in given list."""
+  imageUrl_not_in: [String!]
+
+  """All values less than the given value."""
+  imageUrl_lt: String
+
+  """All values less than or equal the given value."""
+  imageUrl_lte: String
+
+  """All values greater than the given value."""
+  imageUrl_gt: String
+
+  """All values greater than or equal the given value."""
+  imageUrl_gte: String
+
+  """All values containing the given string."""
+  imageUrl_contains: String
+
+  """All values not containing the given string."""
+  imageUrl_not_contains: String
+
+  """All values starting with the given string."""
+  imageUrl_starts_with: String
+
+  """All values not starting with the given string."""
+  imageUrl_not_starts_with: String
+
+  """All values ending with the given string."""
+  imageUrl_ends_with: String
+
+  """All values not ending with the given string."""
+  imageUrl_not_ends_with: String
   password: String
 
   """All values that are not equal to given value."""
@@ -404,5 +498,6 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  username: String
   email: String
 }

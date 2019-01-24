@@ -1,7 +1,9 @@
 type User {
   id: ID! @unique
   name: String!
+  username: String! @unique
   email: String! @unique
+  imageUrl: String
   password: String!
   updatedAt: DateTime!
   createdAt: DateTime!
