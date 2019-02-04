@@ -41,15 +41,17 @@ test('Should not signup user with invalid password', async () => {
     }
   };
 
-
-  const response = await client.mutate({ mutation: createUser, variables });
-
-  expect(response.data.createUser.error.message).toEqual('password should be more than 8 characters');
-  response.data.createUser.error.details.map((detail) => { //eslint-disable-line
-    if (detail.field === 'data.password') {
-      expect(detail.errors[0]).toEqual('password should be more than 8 characters');
-    }
-  });
+  try {
+    await client.mutate({ mutation: createUser, variables });
+  } catch (error) {
+    const graphQLError = error.graphQLErrors[0];
+    expect(graphQLError.message).toEqual('1 errors occured');
+    graphQLError.code.details.map((detail) => { //eslint-disable-line
+      if (detail.field === 'password') {
+        expect(detail.errors[0]).toEqual('password should be more than 8 characters');
+      }
+    });
+  }
 });
 
 test('Should not signup user with existing username', async () => {
@@ -62,14 +64,17 @@ test('Should not signup user with existing username', async () => {
     }
   };
 
-  const response = await client.mutate({ mutation: createUser, variables });
-
-  expect(response.data.createUser.error.message).toEqual('username already exists');
-  response.data.createUser.error.details.map((detail) => { //eslint-disable-line
-    if (detail.field === 'data.username') {
-      expect(detail.errors[0]).toEqual('username already exists');
-    }
-  });
+  try {
+    await client.mutate({ mutation: createUser, variables });
+  } catch (error) {
+    const graphQLError = error.graphQLErrors[0];
+    expect(graphQLError.message).toEqual('1 errors occured');
+    graphQLError.code.details.map((detail) => { //eslint-disable-line
+      if (detail.field === 'username') {
+        expect(detail.errors[0]).toEqual('username already exists');
+      }
+    });
+  }
 });
 
 test('Should not signup user with existing email', async () => {
@@ -82,14 +87,17 @@ test('Should not signup user with existing email', async () => {
     }
   };
 
-  const response = await client.mutate({ mutation: createUser, variables });
-
-  expect(response.data.createUser.error.message).toEqual('email already exists');
-  response.data.createUser.error.details.map((detail) => { //eslint-disable-line
-    if (detail.field === 'data.email') {
-      expect(detail.errors[0]).toEqual('email already exists');
-    }
-  });
+  try {
+    await client.mutate({ mutation: createUser, variables });
+  } catch (error) {
+    const graphQLError = error.graphQLErrors[0];
+    expect(graphQLError.message).toEqual('1 errors occured');
+    graphQLError.code.details.map((detail) => { //eslint-disable-line
+      if (detail.field === 'email') {
+        expect(detail.errors[0]).toEqual('email already exists');
+      }
+    });
+  }
 });
 
 test('Should fetch user profile', async () => {
