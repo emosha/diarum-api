@@ -11,13 +11,6 @@ const createUser = gql`
         email
       }
       token
-      error {
-        message
-        details {
-          field
-          errors
-        }
-      }
     }
   }
 `;

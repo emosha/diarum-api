@@ -1,13 +1,14 @@
 import generateToken from '../../utils/generateToken';
 import hashPassword from '../../utils/hashPassword';
-import validations from '../../validations';
+import validation, { userValidation } from '../../validations';
 
-const { userValidation } = validations;
+const { createUser } = userValidation;
 
 const usersMutation = {
   createUser: {
-    validationSchema: userValidation.createUser,
     resolve: async (parents, { data }, { prisma }) => {
+      await validation(createUser, data);
+
       const password = await hashPassword(data.password);
       const user = await prisma.mutation.createUser({
         data: {
