@@ -45,7 +45,7 @@ test('Should not signup user with invalid password', async () => {
     await client.mutate({ mutation: createUser, variables });
   } catch (error) {
     const graphQLError = error.graphQLErrors[0];
-    expect(graphQLError.message).toEqual('1 errors occured');
+    expect(graphQLError.message).toEqual('1 error occurred');
     graphQLError.code.details.map((detail) => { //eslint-disable-line
       if (detail.field === 'password') {
         expect(detail.errors[0]).toEqual('password should be more than 8 characters');
@@ -68,7 +68,7 @@ test('Should not signup user with existing username', async () => {
     await client.mutate({ mutation: createUser, variables });
   } catch (error) {
     const graphQLError = error.graphQLErrors[0];
-    expect(graphQLError.message).toEqual('1 errors occured');
+    expect(graphQLError.message).toEqual('1 error occurred');
     graphQLError.code.details.map((detail) => { //eslint-disable-line
       if (detail.field === 'username') {
         expect(detail.errors[0]).toEqual('username already exists');
@@ -91,7 +91,7 @@ test('Should not signup user with existing email', async () => {
     await client.mutate({ mutation: createUser, variables });
   } catch (error) {
     const graphQLError = error.graphQLErrors[0];
-    expect(graphQLError.message).toEqual('1 errors occured');
+    expect(graphQLError.message).toEqual('1 error occurred');
     graphQLError.code.details.map((detail) => { //eslint-disable-line
       if (detail.field === 'email') {
         expect(detail.errors[0]).toEqual('email already exists');

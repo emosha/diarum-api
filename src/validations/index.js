@@ -22,7 +22,7 @@ const validate = async (validator, values) => {
 
     const details = Object.values(errorObj);
 
-    throw new ApolloError(`${details.length} errors occured`, { type: 'BAD_USER_INPUT', details });
+    throw new ApolloError(`${details.length} error${details.length > 1 ? 's' : ''} occurred`, { type: 'BAD_USER_INPUT', details });
   }
 };
 
